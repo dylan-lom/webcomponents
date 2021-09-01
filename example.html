@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Web Components Example.</title>
+    <!-- TODO: Use your own style sheet? -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.5.1.min.css"/>
+    <script defer src="DjlJson.js"></script>
+    <script defer src="DjlLipsum.js"></script>
+    <script defer src="DjlScript.js"></script>
+    <script defer src="DjlSpinner.js"></script>
+  </head>
+
+  <body>
+    <article id="djl-lipsum">
+      <p>Below is a djl-lipsum element. Without a value, it outputs lorem ipsum</p>
+      <blockquote>
+        <p><djl-lipsum></djl-lipsum></p>
+      </blockquote>
+      <p>The <code>random-start</code> property starts the text at a random word.</p>
+      <blockquote>
+        <p><djl-lipsum random-start></djl-lipsum></p>
+      </blockquote>
+      <p>You can limit the length of the text with the <code>length</code> property.</p>
+      <blockquote>
+        <p><djl-lipsum length="25"></djl-lipsum></p>
+      </blockquote>
+      <p>You can provide arbitrary text to display (instead of lipsum) by giving it inside the element</p>
+      <blockquote>
+          <djl-lipsum length="250" wrap>You can combine the length and wrap attributes to get placeholder text that wraps around until text is length long.</djl-lipsum>
+      </blockquote>
+      <blockquote>
+        <p><djl-lipsum random-start length="250" wrap>You can also combine all three attributes.</djl-lipsum></p>
+      </blockquote>
+    </article>
+
+    <article id="djl-script">
+      <p>Below are some examples of the djl-code element. It executes the JavaScript given as it's text, and allows editing and re-execution by clicking on it</p>
+      <p>5,000 * 57 = <djl-script>5000 * 57</djl-script></p>
+      <p><djl-script>`Happy ${['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur'][new Date().getDay()]}day`</djl-script></p>
+    </article>
+
+    <article id="djl-spinner">
+        <p>Loading spinners!</p>
+        <p><djl-spinner /></p>
+        <p>Customize <code>size</code>, <code>background</code> and <code>foreground</code> colours</p>
+        <p><djl-spinner size="25px" background="green" foreground="cyan"></djl-spinner></p>
+    </article>
+
+    <article id="djl-json">
+      <p>Below are some examples of the djl-json element. It retrieves a JSON document from <code>src</code>, and displays the property <code>prop</code></p>
+      <p>According to example.json, my friends are:
+          <djl-json src="example.json" prop="about.friends"></djl-json>
+      </p>
+      <p>...and my name is: <djl-json src="example.json" prop="about.name"><code>loading...</code></djl-json></p>
+      <p>Stick a spinner inside to let people know you're getting your date of birth: <djl-json src="example.json" prop="about.dob"><djl-spinner/></djl-json><br />(you may need to throttle your network to see this if you're running this locally)</p> 
+    </article>
+  </body>
+</html>
