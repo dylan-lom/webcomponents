@@ -3,12 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title>Web Components Example.</title>
-    <!-- TODO: Use your own style sheet? -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.5.1.min.css"/>
+
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="example.css">
+
     <script defer src="DjlJson.js"></script>
     <script defer src="DjlLipsum.js"></script>
     <script defer src="DjlScript.js"></script>
     <script defer src="DjlSpinner.js"></script>
+    <script defer src="DjlCodeBlock.js"></script>
   </head>
 
   <body>
@@ -55,5 +58,52 @@
       <p>...and my name is: <djl-json src="example.json" prop="about.name"><code>loading...</code></djl-json></p>
       <p>Stick a spinner inside to let people know you're getting your date of birth: <djl-json src="example.json" prop="about.dob"><djl-spinner/></djl-json><br />(you may need to throttle your network to see this if you're running this locally)</p> 
     </article>
+
+    <article id="djl-codeblock">
+      <p>Below are some examples of the djl-codeblock element. By default it behaves like
+      <code>&lt;pre&gt;&lt;code&gt;...&lt;/code&gt;&lt;/pre&gt;</code></p>
+      
+      <djl-codeblock>
+        for (int i = 0; i < 20; i = rand()) {
+          if (i % 2) {
+            printf("%d\n", i);
+          } else {
+            break;
+          }
+        }
+      </djl-codeblock>
+
+      <p>If you pass a space-seperated list of keywords you can highlight them using the <code>djl-codeblock > .keyword</code> CSS selector</p>
+      <djl-codeblock keywords="if else break" language="c">
+        for (int i = 0; i < 20; i = rand()) {
+          if (i % 2) {
+            printf("%d\n", i);
+          } else {
+            break;
+          }
+        }
+      </djl-codeblock>
+
+      <p>If you provide the <code>language</code> attribute you can reuse the keywords in later blocks</p>
+      <djl-codeblock language="c">
+        if (x) printf("if keyword still highlights :)\n");
+      </djl-codeblock>
+
+      <p>The following languages have some default highlights which may or may not be useful</p>
+      <ul>
+        <li>Console (<code>language="console"</code>)
+        <li>C (<code>language="c"</code>)
+        <li>Javascript (<code>langauge="javascript"</code>)
+        <li>Python (<code>language="python"</code>)
+      </ul>
+
+      <p>Here's an example of the default <code>console</code> highlighting</p>
+      <djl-codeblock language="console">
+        $ for i in $(seq 1 5); do
+        >   echo "$i"
+        > done
+      </djl-codeblock>
+    </article>
   </body>
 </html>
+
