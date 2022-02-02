@@ -35,8 +35,6 @@ class DjlCodeBlock extends HTMLElement {
             + '(?<postfix>[^a-zA-Z])',
         'g'
       )
-      console.log(re)
-
       this.innerHTML = this.innerHTML.replaceAll(re, '$1<span class="keyword">$2</span>$3')
     }
 
