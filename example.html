@@ -7,15 +7,17 @@
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="example.css">
 
-    <script defer src="DjlJson.js"></script>
-    <script defer src="DjlLipsum.js"></script>
-    <script defer src="DjlScript.js"></script>
-    <script defer src="DjlSpinner.js"></script>
-    <script defer src="DjlCodeBlock.js"></script>
+    <script type="module" defer src="DjlJson.js"></script>
+    <script type="module" defer src="DjlLipsum.js"></script>
+    <script type="module" defer src="DjlScript.js"></script>
+    <script type="module" defer src="DjlSpinner.js"></script>
+    <script type="module" defer src="DjlCodeBlock.js"></script>
+    <script type="module" defer src="DjlTex.js"></script>
   </head>
 
   <body>
     <article id="djl-lipsum">
+      <h3>djl-lipsum</h3>
       <p>Below is a djl-lipsum element. Without a value, it outputs lorem ipsum</p>
       <blockquote>
         <p><djl-lipsum></djl-lipsum></p>
@@ -38,19 +40,22 @@
     </article>
 
     <article id="djl-script">
+      <h3>djl-script</h3>
       <p>Below are some examples of the djl-code element. It executes the JavaScript given as it's text, and allows editing and re-execution by clicking on it</p>
       <p>5,000 * 57 = <djl-script>5000 * 57</djl-script></p>
       <p><djl-script>`Happy ${['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur'][new Date().getDay()]}day`</djl-script></p>
     </article>
 
     <article id="djl-spinner">
-        <p>Loading spinners!</p>
-        <p><djl-spinner /></p>
-        <p>Customize <code>size</code>, <code>background</code> and <code>foreground</code> colours</p>
-        <p><djl-spinner size="25px" background="green" foreground="cyan"></djl-spinner></p>
+      <h3>djl-spinner</h3>
+      <p>Loading spinners!</p>
+      <p><djl-spinner /></p>
+      <p>Customize <code>size</code>, <code>background</code> and <code>foreground</code> colours</p>
+      <p><djl-spinner size="25px" background="green" foreground="cyan"></djl-spinner></p>
     </article>
 
     <article id="djl-json">
+      <h3>djl-json</h3>
       <p>Below are some examples of the djl-json element. It retrieves a JSON document from <code>src</code>, and displays the property <code>prop</code></p>
       <p>According to example.json, my friends are:
           <djl-json src="example.json" prop="about.friends"></djl-json>
@@ -60,6 +65,7 @@
     </article>
 
     <article id="djl-codeblock">
+      <h3>djl-codeblock</h3>
       <p>Below are some examples of the djl-codeblock element. By default it behaves like
       <code>&lt;pre&gt;&lt;code&gt;...&lt;/code&gt;&lt;/pre&gt;</code></p>
       
@@ -103,6 +109,28 @@
         >   echo "$i"
         > done
       </djl-codeblock>
+    </article>
+
+    <article id="djl-tex">
+      <h3>djl-tex</h3>
+
+      <p>Below are some examples of the <code>djl-tex</code> element, which renders <a href="https://katex.org/">KaTeX</a> math equations</p>
+      <djl-tex>c = \pm\sqrt {a^2 + b^2}</djl-tex>
+      <djl-tex>
+        x = \begin{cases}
+           a &\text{if } b \\
+           c &\text{if } d \\
+           e &\text{if } f
+        \end{cases}
+      </djl-tex>
+
+      <p>You can use the <code>displayMode</code> attribute to set the <a href="https://katex.org/docs/options.html">KaTex displayMode option</a></p>
+      <djl-tex displayMode>
+        \begin{split}
+          x &= 27 + 42.0 \\
+          x &= 69
+        \end{split}
+      </djl-tex>
     </article>
   </body>
 </html>
