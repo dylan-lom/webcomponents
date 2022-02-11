@@ -2,22 +2,23 @@
  * Inline, editable code tag. 
  * Executed and rendered as <code> initially; on click displays an <input> of the
  * JavaScript. On submit re-executes and renders <code>.
- * @property {HTMLElement} code       - HTML Code element.
- * @property {HTMLFormElement} form   - HTML Form element.
- * @property {HTMLInputElement} input - HTML Input element.
- * @property {string} sourceCode      - User input source code.
+ *
+ * @attribute bool disabled -- viewing (and editing) script is disabled
  */
 class DjlScript extends HTMLElement {
   code; // HTMLElement
   form; // HTMLFormElement
   input; // HTMLInputElement
 
-  sourceCode; //string
+  sourceCode; // string
+  disabled = false; // boolean
 
-  // TODO: Allow for async.
+
   // TODO: Allow for linebreaks in textContent.
   constructor() {
     super();
+
+    if (this.getAttribute('disabled') != null) this.disabled = true;
 
     /*
      * Hijack the textContent. We don't actually want to display it, so stash it
@@ -34,10 +35,10 @@ class DjlScript extends HTMLElement {
     this.input = document.createElement('input');
     this.input.type = 'text';
 
+
     this.resizeInput();
     this.input.value = this.sourceCode;
-    this.code.textContent = this.evaluate();
-    this
+    this.evaluate().then(r => this.code.textContent = r);
     // Inherit padding and margin, so the form doesn't inflate the line height
     this.form.style.margin = 'inherit';
     this.form.style.padding = 'inherit';
@@ -52,18 +53,21 @@ class DjlScript extends HTMLElement {
     this.appendChild(this.code);
     this.appendChild(this.form);
 
-    // Display form when code is clicked on.
-    this.code.addEventListener('click', (e) => {
-      this.resizeInput();
-      this.toggleDisplay();
-      this.input.focus();
-    });
+    if (!this.disabled) {
+      // Display form when code is clicked on.
+      this.code.addEventListener('click', (e) => {
+        this.resizeInput();
+        this.toggleDisplay();
+        this.input.focus();
+      });
+    }
 
     // Update and display code when submitting form
-    this.form.addEventListener('submit', (e) => {
+    this.form.addEventListener('submit', async (e) => {
+      e.preventDefault();
       try {
         this.sourceCode = this.input.value;
-        this.code.textContent = this.evaluate();
+        this.code.textContent = await this.evaluate();
         delete this.dataset.negative;
       } catch (ex) {
         console.error(ex);
@@ -71,13 +75,12 @@ class DjlScript extends HTMLElement {
         this.dataset.negative = 'true';
       }
       this.toggleDisplay();
-      e.preventDefault();
     });
   }
 
-  // FIXME: Is this really any more '''secure''' than eval? Does it even matter?
-  evaluate() {
-    return new Function(`return ${this.sourceCode}`)();
+  async evaluate() {
+    const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+    return await (new AsyncFunction(`return ${this.sourceCode}`))();
   }
 
   resizeInput() {
