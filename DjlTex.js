@@ -21,6 +21,10 @@ class DjlTex extends HTMLElement {
 
     this.shadow = this.attachShadow({ mode: 'open' });
 
+    if (!this.displayMode) {
+      this.style.display = 'inline-block';
+    }
+
     // Load katex CSS for this element
     this.link = document.createElement('link');
     this.link.setAttribute('rel', 'stylesheet');
