@@ -38,7 +38,8 @@ class DjlScript extends HTMLElement {
 
     this.resizeInput();
     this.input.value = this.sourceCode;
-    this.evaluate().then(r => this.code.textContent = r);
+    this.evaluate()
+
     // Inherit padding and margin, so the form doesn't inflate the line height
     this.form.style.margin = 'inherit';
     this.form.style.padding = 'inherit';
@@ -65,22 +66,22 @@ class DjlScript extends HTMLElement {
     // Update and display code when submitting form
     this.form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      try {
-        this.sourceCode = this.input.value;
-        this.code.textContent = await this.evaluate();
-        delete this.dataset.negative;
-      } catch (ex) {
-        console.error(ex);
-        this.code.textContent = ex.message;
-        this.dataset.negative = 'true';
-      }
+      this.sourceCode = this.input.value;
+      await this.evaluate();
       this.toggleDisplay();
     });
   }
 
   async evaluate() {
     const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
-    return await (new AsyncFunction(`return ${this.sourceCode}`))();
+    try {
+      this.code.textContent = await (new AsyncFunction(`return ${this.sourceCode}`))();
+      this.removeAttribute('error');
+    } catch (err) {
+      console.error(err);
+      this.code.textContent = err.message;
+      this.setAttribute('error', true);
+    }
   }
 
   resizeInput() {

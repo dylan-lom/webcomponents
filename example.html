@@ -51,6 +51,12 @@
       <p>
         You can also use await for async operations<br />
         <djl-script>await fetch('./example.txt').then(r => r.text())</djl-script>
+      </p>
+
+      <p>Errors will set the `error` attribute on the element and display the error message.<br />
+        <djl-script>'oops</djl-script><br />
+        Fixing the error will clear the attribute.
+      </p>
     </article>
 
     <article id="djl-spinner">
