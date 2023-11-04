@@ -155,8 +155,8 @@
 
       <p>
         <djl-script style="display: block;">(
-          (document.querySelector('#youtube-programmatic-set').videoid = '4__O_5Qvaww')
-          && 'You can set videos programatically! Woew'
+          (setTimeout(() => document.querySelector('#youtube-programmatic-set').videoid = '4__O_5Qvaww', 5000))
+          && 'You can set videos programatically! Woew (ie. 5 second delay)'
       )</djl-script></p>
       <djl-youtube style="display: block;" id="youtube-programmatic-set"></djl-youtube>
 

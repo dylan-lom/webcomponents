@@ -58,9 +58,8 @@ class DjlYoutube extends HTMLElement {
     if (!this.player) return;
 
     console.log(this.player);
-
-    this.player.setSize(this.width, this.height);
-    if (this.player.getVideoData().video_id != this.videoid);
+    this.player?.setSize(this.width, this.height);
+    if (this.player?.getVideoData()?.video_id != this.videoid);
       this.player.loadVideoById(this.videoid);
 
   }
