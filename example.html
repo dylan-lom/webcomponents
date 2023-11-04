@@ -13,6 +13,7 @@
     <script type="module" defer src="DjlSpinner.js"></script>
     <script type="module" defer src="DjlCodeBlock.js"></script>
     <script type="module" defer src="DjlTex.js"></script>
+    <script type="module" defer src="DjlYoutube.js"></script>
   </head>
 
   <body>
@@ -144,6 +145,22 @@
           x &= 69
         \end{split}
       </djl-tex>
+    </article>
+
+    <article id="djl-youtube">
+      <h3>djl-youtube</h3>
+
+      <p>Embend an youtube video!</p>
+      <djl-youtube height=390 width=640 videoid=qdP54eqdZiI></djl-youtube>
+
+      <p>
+        <djl-script style="display: block;">(
+          (document.querySelector('#youtube-programmatic-set').videoid = '4__O_5Qvaww')
+          && 'You can set videos programatically! Woew'
+      )</djl-script></p>
+      <djl-youtube style="display: block;" id="youtube-programmatic-set"></djl-youtube>
+
+
     </article>
   </body>
 </html>
