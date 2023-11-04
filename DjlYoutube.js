@@ -43,25 +43,29 @@ class DjlYoutube extends HTMLElement {
   }
 
   onYouTubeIframeAPIReady() {
-    this.player = new DjlYoutube.ytApi.Player(this.element.id, {
+    const player = new DjlYoutube.ytApi.Player(this.element.id, {
       height: this.height,
       width: this.width,
       videoId: this.videoid,
       playerVars: {
         playsinline: 1
       },
+      events: {
+        /* Don't expose the player until it's fully initialized! */
+        onReady: () => this.player = player
+      }
     });
   }
 
-
   attributeChangedCallback() {
-    if (!this.player) return;
+    /* Try again in 500ms if we're not done loading the player */
+    if (!this.player)
+      return setTimeout(() => this.attributeChangedCallback(), 500);
 
     console.log(this.player);
-    this.player.setSize?.(this.width, this.height);
-    if (this.player.getVideoData?.()?.video_id != this.videoid);
+    this.player.setSize(this.width, this.height);
+    if (this.player.getVideoData()?.video_id != this.videoid)
       this.player.loadVideoById(this.videoid);
-
   }
 }
 
