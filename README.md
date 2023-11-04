@@ -8,6 +8,7 @@ A small set of not-super-useful [Web Components][1]
 * `djl-json`      - display a JSON property!
 * `djl-codeblock` - syntax-highlighted codeblock!
 * `djl-tex`       - render equations with [KaTex][2]!
+* `djl-youtube`   - embed youtube videos!
 
 You can view some examples [here](https://dylan-lom.github.io/webcomponents/example.html)
 
