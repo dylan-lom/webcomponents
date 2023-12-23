@@ -14,6 +14,7 @@
     <script type="module" defer src="DjlCodeBlock.js"></script>
     <script type="module" defer src="DjlTex.js"></script>
     <script type="module" defer src="DjlYoutube.js"></script>
+    <script type="module" defer src="DjlIf.js"></script>
   </head>
 
   <body>
@@ -159,8 +160,74 @@
           && 'You can set videos programatically! Woew (ie. 5 second delay)'
       )</djl-script></p>
       <djl-youtube style="display: block;" id="youtube-programmatic-set"></djl-youtube>
+    </article>
 
+    <article id="djl-if">
+      <h3>djl-if</h3>
+      <style>
+        djl-if.hidden { display: none; }
+        djl-if.disabled { color: grey; font-style: italic; }
+        djl-if.red { color: red; }
+        djl-if.green { color: green; }
+      </style>
 
+      <p>
+        Conditionally manage elements!<br>
+        The element will evaluate a given (JS) predicate and assign child with a
+        <code>ifClass</code> and/or <code>elseClass</code>. If these attributes
+        were not passed <code>ifClass</code> will do nothing and <code>elseClass</code>
+        will add the <code>.hidden</code> class.
+      </p>
+      <p>
+        <djl-if predicate="new Date().getDay() == 1">
+          <ul>
+            <li>
+              Today is
+              <djl-if predicate="new Date().getDay() != new Date().getDay() + 1"><span style="color: red">not</span></djl-if>
+              Tomorrow.
+            </li>
+
+            <li>
+              Today is
+              <djl-if predicate="new Date().getDay() != new Date().getDay()"><span style="color: red">not</span></djl-if>
+              Today.
+            </li>
+
+            <li>
+              Use the <code>elseClass</code> attribute to style your else case
+              <djl-if predicate="false" elseClass="disabled">like this</djl-if><br>
+            </li>
+          </ul>
+
+          <p>
+            The predicate can be asynchronous<br>
+            Checking response status of:
+            <ul>
+              <li>
+                <djl-if
+                  predicate="await fetch('.').then(response => response.ok)"
+                  ifClass="green"
+                  elseClass="red"
+                >Current site</djl-if>
+              </li>
+              <li>
+                <djl-if
+                  predicate="await fetch('http://dlom.cc').then(response => response.ok)"
+                  ifClass="green"
+                  elseClass="red"
+                >dlom.cc<djl-if>
+              </li>
+              <li>
+                <djl-if
+                  predicate="await fetch('http://error.dlom.cc').then(response => response.ok)"
+                  ifClass="green"
+                  elseClass="red"
+                >error.dlom.cc<djl-if>
+              </li>
+            </ul>
+          </p>
+        </djl-if>
+      </p>
     </article>
   </body>
 </html>
