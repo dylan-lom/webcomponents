@@ -17,7 +17,7 @@ export default class DjlIf extends HTMLElement {
 
   get predicate() { return this.getAttribute('predicate') }
   set predicate(p) { this.setAttribute('predicate', p) }
-  get ifClass() { return this.getAttribute('ifClass') || undefined }
+  get ifClass() { return this.getAttribute('ifClass') }
   set ifClass(c) { this.setAttribute('ifClass', c) }
   get elseClass() { return this.getAttribute('elseClass') || 'hidden' }
   set elseClass(c) { this.setAttribute('elseClass', c) }
@@ -41,11 +41,11 @@ export default class DjlIf extends HTMLElement {
 
     this.#result = await predicate
     if (this.#result) {
-      this.classList.add(this.ifClass)
-      this.classList.remove(this.elseClass)
+      if (this.ifClass?.length) this.classList.add(this.ifClass)
+      if (this.elseClass?.length) this.classList.remove(this.elseClass)
     } else {
-      this.classList.add(this.elseClass)
-      this.classList.remove(this.ifClass)
+      if (this.elseClass?.length) this.classList.add(this.elseClass)
+      if (this.ifClass?.length) this.classList.remove(this.ifClass)
     }
 
     /* If there are associated <djl-else> elements, then they should rerender too */

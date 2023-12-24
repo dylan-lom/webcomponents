@@ -9,7 +9,7 @@ A small set of not-super-useful [Web Components][1]
 * `djl-codeblock` - syntax-highlighted codeblock!
 * `djl-tex`       - render equations with [KaTex][2]!
 * `djl-youtube`   - embed youtube videos!
-* `djl-if`        - conditionally manage elements!
+* `djl-(if|else)` - conditionally manage elements!
 
 You can view some examples [here](https://dylan-lom.github.io/webcomponents/example.html)
 

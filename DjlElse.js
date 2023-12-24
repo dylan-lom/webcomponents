@@ -7,7 +7,7 @@ export default class DjlElse extends HTMLElement {
   set href(s) { this.setAttribute('href', s) }
   get ifClass() { return this.getAttribute('ifClass') || 'hidden' }
   set ifClass(c) { this.setAttribute('ifClass', c) }
-  get elseClass() { return this.getAttribute('elseClass') || undefined }
+  get elseClass() { return this.getAttribute('elseClass') }
   set elseClass(c) { this.setAttribute('elseClass', c) }
 
   #isConnected = false
@@ -45,11 +45,11 @@ export default class DjlElse extends HTMLElement {
     if (!associatedIf) return
 
     if (associatedIf.getResult()) {
-      this.classList.add(this.ifClass)
-      this.classList.remove(this.elseClass)
+      if (this.ifClass?.length) this.classList.add(this.ifClass)
+      if (this.elseClass?.length) this.classList.remove(this.elseClass)
     } else {
-      this.classList.add(this.elseClass)
-      this.classList.remove(this.ifClass)
+      if (this.elseClass?.length) this.classList.add(this.elseClass)
+      if (this.ifClass?.length) this.classList.remove(this.ifClass)
     }
   }
 
