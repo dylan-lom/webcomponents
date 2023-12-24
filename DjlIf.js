@@ -1,10 +1,14 @@
+import DjlElse from './DjlElse.js' /* NOTE: We implicitly depend on this by
+                                      referencing the DjlElse methods, even
+                                      though we don't use the class directly. */
+
 /**
  * Conditional container
  * @attribute predicate - javascript expression
  * @attribute ifClass - class to be given to this element when the predicate is true
  * @attribute elseClass - class to be given to this element when the predicate is false (default: 'hidden')
  */
-class DjlIf extends HTMLElement {
+export default class DjlIf extends HTMLElement {
   static get observedAttributes() {
     return [ 'predicate', 'ifClass', 'elseClass' ]
   }
@@ -19,6 +23,7 @@ class DjlIf extends HTMLElement {
   set elseClass(c) { this.setAttribute('elseClass', c) }
 
   #isConnected = false
+  #result = undefined
 
   constructor() {
     super();
@@ -34,24 +39,32 @@ class DjlIf extends HTMLElement {
         return false
       })
 
-    if (await predicate) {
+    this.#result = await predicate
+    if (this.#result) {
       this.classList.add(this.ifClass)
       this.classList.remove(this.elseClass)
     } else {
       this.classList.add(this.elseClass)
       this.classList.remove(this.ifClass)
     }
+
+    /* If there are associated <djl-else> elements, then they should rerender too */
+    Array.from(document.querySelectorAll('djl-else'))
+      .filter(djlElse => {
+        return djlElse.isConnected && djlElse.getAssociatedIf() == this
+      })
+      .forEach(djlElse => djlElse.associatedIfChangedCallback())
   }
 
-  attributeChangedCallback() {
-    console.log('attributeChangedCallback')
-    this.#rerender()
-  }
+  attributeChangedCallback() { this.#rerender() }
 
   connectedCallback() {
-    console.log('connectedCallback')
     this.#isConnected = true
     this.#rerender()
+  }
+
+  getResult() {
+    return this.#result
   }
 }
 
