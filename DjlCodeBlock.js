@@ -3,7 +3,7 @@
  * @attribute keywords - space delimited list of keywords to highlight
  * @attribute language - the language to associate keyword highlighting with
  */
-class DjlCodeBlock extends HTMLElement {
+export default class DjlCodeBlock extends HTMLElement {
   static languages = {
     console:    [ 'if', 'elif', 'else', 'for', 'in', 'do', 'then', 'done', 'return', 'exit', 'echo' ],
     c:          [ 'if', 'else', 'for', 'while', 'do', 'return', 'enum', 'struct', 'typedef', ],

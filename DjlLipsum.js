@@ -10,7 +10,7 @@
  */
 // TODO: Allow child elements
 // TODO: Implement attributeChangedCallback
-class DjlLipsum extends HTMLElement {
+export default class DjlLipsum extends HTMLElement {
   baseText; // string
   length; // number|undefined
   randomStart; // boolean

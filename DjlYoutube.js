@@ -1,6 +1,6 @@
 'use strict';
 
-class DjlYoutube extends HTMLElement {
+export default class DjlYoutube extends HTMLElement {
   static ytApi = null; /* Populated by onYouTubeIframeAPIReady */
   static {
     const tag = document.createElement('script');

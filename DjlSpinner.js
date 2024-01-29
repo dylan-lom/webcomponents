@@ -25,7 +25,7 @@ const getSpinnerCss = ({background, foreground, size}) => {
  */
 // TODO: Accept other size formats (ie. %, vh)
 // TODO: Use style attribute instead...?
-class DjlSpinner extends HTMLElement {
+export default class DjlSpinner extends HTMLElement {
   shadow // ShadowRoot
   spinner // HTMLDivElement
   style // HTMLStyleElement

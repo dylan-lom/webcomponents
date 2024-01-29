@@ -5,7 +5,7 @@ import katex from 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.mjs';
 /**
  * KaTex mathematical typesetting
  */
-class DjlTex extends HTMLElement {
+export default class DjlTex extends HTMLElement {
   displayMode // boolean
   source // string
 

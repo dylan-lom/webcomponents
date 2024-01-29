@@ -8,7 +8,7 @@
 // TODO: Add callback prop
 // TODO: Allow accessing local objects
 // TODO: Implement attributeChangedCallback and re-fetch
-class DjlJson extends HTMLElement {
+export default class DjlJson extends HTMLElement {
   src // string
   prop // string
   placeholder // string

@@ -5,7 +5,7 @@
  *
  * @attribute bool disabled -- viewing (and editing) script is disabled
  */
-class DjlScript extends HTMLElement {
+export default class DjlScript extends HTMLElement {
   code; // HTMLElement
   form; // HTMLFormElement
   input; // HTMLInputElement
