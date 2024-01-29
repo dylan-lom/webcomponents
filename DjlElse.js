@@ -1,4 +1,8 @@
 export default class DjlElse extends HTMLElement {
+  static define(tag = 'djl-else') {
+    customElements.define(tag, this)
+  }
+
   static get observedAttributes() {
     return [ 'href', 'ifClass', 'elseClass' ]
   }
@@ -61,4 +65,4 @@ export default class DjlElse extends HTMLElement {
   associatedIfChangedCallback() { this.#rerender() }
 }
 
-customElements.define('djl-else', DjlElse)
+DjlElse.define()

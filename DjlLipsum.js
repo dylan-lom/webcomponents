@@ -11,6 +11,10 @@
 // TODO: Allow child elements
 // TODO: Implement attributeChangedCallback
 export default class DjlLipsum extends HTMLElement {
+  static define(tag = 'djl-lipsum') {
+    customElements.define(tag, this)
+  }
+
   baseText; // string
   length; // number|undefined
   randomStart; // boolean
@@ -63,4 +67,4 @@ export default class DjlLipsum extends HTMLElement {
   }
 }
 
-customElements.define('djl-lipsum', DjlLipsum)
+DjlLipsum.define()

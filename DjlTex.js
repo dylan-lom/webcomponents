@@ -6,6 +6,10 @@ import katex from 'https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.mjs';
  * KaTex mathematical typesetting
  */
 export default class DjlTex extends HTMLElement {
+  static define(tag = 'djl-tex') {
+    customElements.define(tag, this)
+  }
+
   displayMode // boolean
   source // string
 
@@ -47,5 +51,4 @@ export default class DjlTex extends HTMLElement {
 
 }
 
-customElements.define('djl-tex', DjlTex);
-
+DjlTex.define()

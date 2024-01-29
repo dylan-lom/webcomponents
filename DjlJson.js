@@ -9,6 +9,10 @@
 // TODO: Allow accessing local objects
 // TODO: Implement attributeChangedCallback and re-fetch
 export default class DjlJson extends HTMLElement {
+  static define(tag = 'djl-json') {
+    customElements.define(tag, this)
+  }
+
   src // string
   prop // string
   placeholder // string
@@ -43,4 +47,4 @@ export default class DjlJson extends HTMLElement {
 
 }
 
-customElements.define('djl-json', DjlJson)
+DjlJson.define()

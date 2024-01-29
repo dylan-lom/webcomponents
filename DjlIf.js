@@ -9,6 +9,10 @@ import DjlElse from './DjlElse.js' /* NOTE: We implicitly depend on this by
  * @attribute elseClass - class to be given to this element when the predicate is false (default: 'hidden')
  */
 export default class DjlIf extends HTMLElement {
+  static define(tag = 'djl-if') {
+    customElements.define(tag, this)
+  }
+
   static get observedAttributes() {
     return [ 'predicate', 'ifClass', 'elseClass' ]
   }
@@ -68,4 +72,4 @@ export default class DjlIf extends HTMLElement {
   }
 }
 
-customElements.define('djl-if', DjlIf)
+DjlIf.define()

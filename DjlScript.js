@@ -6,6 +6,10 @@
  * @attribute bool disabled -- viewing (and editing) script is disabled
  */
 export default class DjlScript extends HTMLElement {
+  static define(tag = 'djl-script') {
+    customElements.define(tag, this)
+  }
+
   code; // HTMLElement
   form; // HTMLFormElement
   input; // HTMLInputElement
@@ -100,4 +104,4 @@ export default class DjlScript extends HTMLElement {
   
 }
 
-customElements.define('djl-script', DjlScript)
+DjlScript.define()

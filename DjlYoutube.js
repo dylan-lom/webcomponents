@@ -1,6 +1,10 @@
 'use strict';
 
 export default class DjlYoutube extends HTMLElement {
+  static define(tag = 'djl-youtube') {
+    customElements.define(tag, this)
+  }
+
   static ytApi = null; /* Populated by onYouTubeIframeAPIReady */
   static {
     const tag = document.createElement('script');
@@ -69,5 +73,4 @@ export default class DjlYoutube extends HTMLElement {
   }
 }
 
-customElements.define('djl-youtube', DjlYoutube);
-
+DjlYoutube.define()
