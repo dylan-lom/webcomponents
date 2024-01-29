@@ -10,39 +10,33 @@ export default class DjlScript extends HTMLElement {
     customElements.define(tag, this)
   }
 
+  static get observedAttributes() {
+    return [ 'disabled' ]
+  }
+
+  static {
+    // Declare getter/setter wrappers around observedAttributes (JS/DOM interface)
+    this.observedAttributes.forEach(attribute => {
+      Object.defineProperty(this.prototype, attribute, {
+        get: function() { return this.getAttribute(attribute) },
+        set: function(value) { return this.setAttribute(attribute, value) },
+      })
+    })
+  }
+
+  static #AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+
+
   code; // HTMLElement
   form; // HTMLFormElement
   input; // HTMLInputElement
 
   sourceCode; // string
-  disabled = false; // boolean
 
-
-  // TODO: Allow for linebreaks in textContent.
-  constructor() {
-    super();
-
-    if (this.getAttribute('disabled') != null) this.disabled = true;
-
-    /*
-     * Hijack the textContent. We don't actually want to display it, so stash it
-     * away in sourceCode and set textContent to empty string.
-     * There is probably away to use textContent properly, but I'm not sure
-     * how...
-     */
-    this.sourceCode = this.textContent || '';
-    this.textContent = '';
-
-    // Create sub-elements.
-    this.code = document.createElement('code');
-    this.form = document.createElement('form');
-    this.input = document.createElement('input');
-    this.input.type = 'text';
-
+  async #render() {
 
     this.resizeInput();
     this.input.value = this.sourceCode;
-    this.evaluate()
 
     // Inherit padding and margin, so the form doesn't inflate the line height
     this.form.style.margin = 'inherit';
@@ -58,7 +52,7 @@ export default class DjlScript extends HTMLElement {
     this.appendChild(this.code);
     this.appendChild(this.form);
 
-    if (!this.disabled) {
+    if (this.disabled === null) {
       // Display form when code is clicked on.
       this.code.addEventListener('click', (e) => {
         this.resizeInput();
@@ -74,12 +68,13 @@ export default class DjlScript extends HTMLElement {
       await this.evaluate();
       this.toggleDisplay();
     });
+
+    await this.evaluate()
   }
 
   async evaluate() {
-    const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
     try {
-      this.code.textContent = await (new AsyncFunction(`return ${this.sourceCode}`))();
+      this.code.textContent = await (new DjlScript.#AsyncFunction(`return ${this.sourceCode}`))();
       this.removeAttribute('error');
     } catch (err) {
       console.error(err);
@@ -101,6 +96,22 @@ export default class DjlScript extends HTMLElement {
         'none';
   }
 
+  // TODO: Allow for linebreaks in textContent.
+  constructor() {
+    super();
+    this.sourceCode = this.textContent || '';
+    this.textContent = ''
+
+
+    // Create sub-elements.
+    this.code = document.createElement('code');
+    this.form = document.createElement('form');
+    this.input = document.createElement('input');
+    this.input.type = 'text';
+  }
+
+  async attributeChangedCallback() { await this.#render() }
+  async connectedCallback() { await this.#render() }
   
 }
 
