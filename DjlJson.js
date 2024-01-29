@@ -7,44 +7,51 @@
  */
 // TODO: Add callback prop
 // TODO: Allow accessing local objects
-// TODO: Implement attributeChangedCallback and re-fetch
 export default class DjlJson extends HTMLElement {
   static define(tag = 'djl-json') {
     customElements.define(tag, this)
   }
 
-  src // string
-  prop // string
-  placeholder // string
-
-  constructor() {
-    super()
-
-    this.src = this.getAttribute('src')
-    this.prop = this.getAttribute('prop').split('.')
-    this.placeholder = this.textContent
-
-    this.fetchSrc()
+  static get observedAttributes() {
+    return [ 'src', 'prop', 'placeholder' ]
   }
 
+  static {
+    // Declare getter/setter wrappers around observedAttributes (JS/DOM interface)
+    this.observedAttributes.forEach(attribute => {
+      Object.defineProperty(this.prototype, attribute, {
+        get: function() { return this.getAttribute(attribute) },
+        set: function(value) { return this.setAttribute(attribute, value) },
+      })
+    })
+  }
 
-  fetchSrc = () => {
-    return fetch(this.src)
+  #render() {
+    const getProp = (obj, prop) => {
+      if (!prop.length) return obj
+      return getProp(obj[prop[0]], prop.slice(1))
+    }
+
+    if (!this.prop || !this.src) return
+
+    // I'm trusting the browser to cache stuff because I don't want to :^)
+    fetch(this.src)
       .then(resp => {
         if (!resp.ok)
           throw new Error(`Unabled to retrieve resouce ${this.src} (${resp.statusText})`)
         return resp.json()
       })
-      .then(json => this.getProp(json, this.prop))
+      .then(json => getProp(json, this.prop.split('.')))
       .then(prop => this.textContent = prop)
       .catch(err => { console.error(err); this.textContent = err })
   }
 
-  getProp = (obj, prop) => {
-    if (!prop.length) return obj
-    return this.getProp(obj[prop[0]], prop.slice(1))
+  constructor() {
+    super()
   }
 
+  attributeChangedCallback() { this.#render() }
+  connectedCallback() { this.#render() }
 }
 
 DjlJson.define()
