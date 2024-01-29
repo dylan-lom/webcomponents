@@ -15,41 +15,53 @@ export default class DjlCodeBlock extends HTMLElement {
     python:     [ 'if' ,'elif', 'else', 'for', 'while', 'def', 'class', '__init__', 'return', ],
   }
 
-  language // string
-  keywords // string[]
+  static get observedAttributes() {
+    return ['language', 'keywords']
+  }
 
-  constructor() {
-    super();
+  static {
+    // Declare getter/setter wrappers around observedAttributes (JS/DOM interface)
+    this.observedAttributes.forEach(attribute => {
+      Object.defineProperty(this.prototype, attribute, {
+        get: function() { return this.getAttribute(attribute) },
+        set: function(value) { return this.setAttribute(attribute, value) },
+      })
+    })
+  }
 
-    this.language = this.getAttribute('language');
-    if (this.language) {
-        this.keywords = DjlCodeBlock.languages[this.language];
-    }
-
-    const keywords = this.getAttribute('keywords');
-    if (keywords) {
-      this.keywords = keywords.split(' ');
-    }
-
+  #render() {
+    const keywords = this.keywords?.split(' ') ?? DjlCodeBlock.languages[this.language] ?? []
     // TODO: This breaks on adjacent keywords (such as `else if`)!
-    if (this.keywords) {
+    if (keywords) {
       const re = new RegExp(
         '(?<prefix>[^a-zA-Z])'
-            + `(?<keyword>${this.keywords.join('|')})`
+            + `(?<keyword>${keywords.join('|')})`
             + '(?<postfix>[^a-zA-Z])',
         'g'
       )
       this.innerHTML = this.innerHTML.replaceAll(re, '$1<span class="keyword">$2</span>$3')
     }
 
+    /* Save the user's keywords for the given language for subsequent use in
+     * DjlCodeBlock elements.
+     * NOTE: The user may choose to 'shadow' our predefined keywords by passing
+     * in their own via the keywords attribute. In this case we want to preserve
+     * their preffered keywords (so we override our defaults) */
     if (this.language) {
-        DjlCodeBlock.languages[this.language] = this.keywords;
+        DjlCodeBlock.languages[this.language] = keywords;
     }
 
     this.style.display = 'block';
     this.style.whiteSpace = 'pre';
     this.style.fontFamily = 'monospace';
   }
+
+  constructor() {
+    super();
+  }
+
+  attributeChangedCallback() { this.#render() }
+  connectedCallback() { this.#render() }
 }
 
 DjlCodeBlock.define()
