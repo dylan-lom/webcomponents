@@ -1,4 +1,5 @@
-const getSpinnerCss = ({background, foreground, size}) => {
+const getSpinnerCss = (background = '#eee', foreground = '#333', size = '20') => {
+  size = Number.parseInt(size)
   return `
     @keyframes __spin {
       0%   { transform: rotate(0deg); }
@@ -38,6 +39,25 @@ export default class DjlSpinner extends HTMLElement {
     return ['background', 'foreground', 'size']
   }
 
+  static {
+    // Declare getter/setter wrappers around observedAttributes (JS/DOM interface)
+    this.observedAttributes.forEach(attribute => {
+      Object.defineProperty(this.prototype, attribute, {
+        get: function() { return this.getAttribute(attribute) },
+        set: function(value) { return this.setAttribute(attribute, value) },
+      })
+    })
+  }
+
+  #render() {
+    // When unset attributes are null. We want the default in this case, so we pass undefined
+    this.style.innerHTML = getSpinnerCss(
+      this.background ?? undefined,
+      this.foreground ?? undefined,
+      this.size ?? undefined
+    )
+  }
+
   constructor() {
     super()
 
@@ -46,22 +66,13 @@ export default class DjlSpinner extends HTMLElement {
     this.spinner = document.createElement('div')
     this.spinner.classList.add('loader')
     this.style = document.createElement('style')
-    this.style.innerHTML = getSpinnerCss(this.props())
 
     this.shadow.appendChild(this.style)
     this.shadow.appendChild(this.spinner)
   }
 
-  props = () => ({
-    background: this.getAttribute('background') || '#eee',
-    foreground: this.getAttribute('foreground') || '#333',
-    size: parseInt(this.getAttribute('size')) || 20,
-  })
-
-  attributeChangedCallback() {
-    this.style.innerHTML = getSpinnerCss(this.props())
-  }
-
+  attributeChangedCallback() { this.#render() }
+  connectedCallback() { this.#render() }
 }
 
 DjlSpinner.define()
