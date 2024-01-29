@@ -10,22 +10,47 @@ export default class DjlTex extends HTMLElement {
     customElements.define(tag, this)
   }
 
-  displayMode // boolean
+  static get observedAttributes() {
+    return [ 'displayMode' ]
+  }
+
+  static {
+    // Declare getter/setter wrappers around observedAttributes (JS/DOM interface)
+    this.observedAttributes.forEach(attribute => {
+      Object.defineProperty(this.prototype, attribute, {
+        get: function() { return this.getAttribute(attribute) },
+        set: function(value) { return this.setAttribute(attribute, value) },
+      })
+    })
+  }
+
+
   source // string
 
   shadow // ShadowRoot
   link // HTMLLinkElement
   tex // HTMLDivElement
 
+  #render() {
+    // TODO: For some reason the rendering of cases environment looks
+    // terrible when rendered in html mode :(
+
+    const hasMathML = (typeof MathMLElement == 'function')
+    katex.render(this.source, this.tex, {
+      throwOnError: false,
+      output: hasMathML ? 'mathml' : 'html',
+      displayMode: this.displayMode !== null,
+    });
+  }
+
   constructor() {
     super();
 
-    this.displayMode = this.getAttribute('displayMode') != null;
     this.source = this.textContent;
 
     this.shadow = this.attachShadow({ mode: 'open' });
 
-    if (!this.displayMode) {
+    if (this.displayMode === null) {
       this.style.display = 'inline-block';
     }
 
@@ -38,17 +63,10 @@ export default class DjlTex extends HTMLElement {
     this.tex = document.createElement('div');
     this.shadow.appendChild(this.tex);
 
-    // TODO: For some reason the rendering of cases environment looks
-    // terrible when rendered in html mode :(
-    const hasMathML = (typeof MathMLElement == 'function')
-    katex.render(this.source, this.tex, {
-        throwOnError: false,
-        output: hasMathML ? 'mathml' : 'html',
-        displayMode: this.displayMode,
-    });
-    
   }
 
+  attributeChangedCallback() { this.#render() }
+  connectedCallback() { this.#render() }
 }
 
 DjlTex.define()
