@@ -16,6 +16,7 @@
     <script type="module" defer src="DjlYoutube.js"></script>
     <script type="module" defer src="DjlIf.js"></script>
     <script type="module" defer src="DjlElse.js"></script>
+    <script type="module" defer src="DjlSwitch.js"></script>
 
   </head>
 
@@ -269,6 +270,38 @@
           error.dlom.cc is offline.
         </djl-else>
 
+      </p>
+    </article>
+
+    <article id="djl-switch">
+      <h3>djl-switch</h3>
+
+      <p>
+        The switch component acts like a <code>switch</code> expression, where
+        <code>case</code> branches are supplied with a <code>&lt;slot name="value"&gt;</code>
+        element.
+
+      </p>
+      <p>
+        Happy <djl-switch expression="new Date().getDay()">
+          <span slot="6">Saturday</span>
+          <span slot="0">Sunday</span>
+          <span slot="1">Monday</span>
+          <span slot="2">Tuesday</span>
+          <span slot="3">Wednesday</span>
+          <span slot="4">Thursday</span>
+          <span slot="5">Friday</span>
+        </djl-switch>.
+
+        Today is a <djl-switch expression="[0,6].includes(new Date().getDay())">
+          <span slot="true">weekend</span>
+          <span slot="false">workday</span>
+        </djl-switch>.
+
+        The year is <djl-switch expression="new Date().getFullYear()">
+          <span slot="2001"></span>
+          <span slot="_"><strong>not</strong></span>
+        </djl-switch> two-thousand-and-one
       </p>
     </article>
   </body>
