@@ -18,12 +18,8 @@ You can view some examples [here](https://dylan-lom.github.io/webcomponents/exam
 
 The components are designed to be standalone -- for example if you
 only want to use the `djl-script` component, something like 
-`<script defer src="https://raw.githubusercontent.com/dylan-lom/webcomponents/main/DjlScript.js"></script>`
-would be sufficient to enable to `<djl-script>` element
-
-**NOTE:** Since `djl-tex` imports the `katex` module you must also specify
-`type="module"` when including `DjlTex.js` in your document. Specifying
-the `module` type for other components is optional.
+`<script type="module" src="https://raw.githubusercontent.com/dylan-lom/webcomponents/main/DjlScript.js"></script>`
+would be sufficient to enable to `<djl-script>` element.
 
 See [example.html](example.html) for a working example usage. Components
 should be largely self-documenting from their source code.
