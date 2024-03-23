@@ -1,5 +1,3 @@
-'use strict';
-
 export default class DjlYoutube extends HTMLElement {
   static define(tag = 'djl-youtube') {
     customElements.define(tag, this)

@@ -1,8 +1,3 @@
-/**
- * Syntax-highlighted code block
- * @attribute keywords - space delimited list of keywords to highlight
- * @attribute language - the language to associate keyword highlighting with
- */
 export default class DjlCodeBlock extends HTMLElement {
   static define(tag = 'djl-codeblock') {
     customElements.define(tag, this)

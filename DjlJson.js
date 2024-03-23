@@ -1,13 +1,6 @@
-/**
- * Retrieve content from remote JSON source
- * Displays textContent while loading, then replaces with JSON response
- * @property {string} src         - URI to remote JSON
- * @property {string} prop        - Property of JSON to display
- * @property {string} placeholder - Interim content to display while retrieving and reading JSON
- */
-// TODO: Add callback prop
-// TODO: Allow accessing local objects
 export default class DjlJson extends HTMLElement {
+  // TODO: Add callback prop
+  // TODO: Allow accessing local objects
   static define(tag = 'djl-json') {
     customElements.define(tag, this)
   }

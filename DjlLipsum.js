@@ -1,11 +1,3 @@
-/**
- * 
- * @attribute {number | undefined} length - Length of text to be displayed (in characters). If wrap is false, this is inferred as maximum length.
- * @attribute {boolean} randomStart       - Whether baseText should pick a random word to start on.
- * @attribute {boolean} wrap              - Whether baseText should return to the start if the length
- * condition hasn't been satisfied.
- */
-// TODO: Allow child elements
 export default class DjlLipsum extends HTMLElement {
   static define(tag = 'djl-lipsum') {
     customElements.define(tag, this)

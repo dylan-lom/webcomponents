@@ -1,32 +1,6 @@
-const getSpinnerCss = (background = '#eee', foreground = '#333', size = '20') => {
-  size = Number.parseInt(size)
-  return `
-    @keyframes __spin {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .loader {
-      display: inline-block;
-      vertical-align: top;
-      margin: 0 0.25em;
-      border: ${size * 0.2}px solid ${background};
-      border-top: ${size * 0.2}px solid ${foreground};
-      border-radius: 50%;
-      width: ${size}px;
-      height: ${size}px;
-      animation: __spin 2s linear infinite;
-    }`
-}
-
-/**
- * Loading spinner
- * @attribute background - background color of the spinner
- * @attribute foreground - foreground color of the spinner
- * @attribute size       - size of the spinner in pixels
- */
-// TODO: Accept other size formats (ie. %, vh)
-// TODO: Use style attribute instead...?
 export default class DjlSpinner extends HTMLElement {
+  // TODO: Accept other size formats (ie. %, vh)
+  // TODO: Use style attribute instead...?
   static define(tag = 'djl-spinner') {
     customElements.define(tag, this)
   }
@@ -49,9 +23,29 @@ export default class DjlSpinner extends HTMLElement {
     })
   }
 
+  static #getSpinnerCss = (background = '#eee', foreground = '#333', size = '20') => {
+    size = Number.parseInt(size)
+    return `
+      @keyframes __spin {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .loader {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 0.25em;
+        border: ${size * 0.2}px solid ${background};
+        border-top: ${size * 0.2}px solid ${foreground};
+        border-radius: 50%;
+        width: ${size}px;
+        height: ${size}px;
+        animation: __spin 2s linear infinite;
+      }`
+  }
+
   #render() {
     // When unset attributes are null. We want the default in this case, so we pass undefined
-    this.style.innerHTML = getSpinnerCss(
+    this.style.innerHTML = DjlSpinner.#getSpinnerCss(
       this.background ?? undefined,
       this.foreground ?? undefined,
       this.size ?? undefined

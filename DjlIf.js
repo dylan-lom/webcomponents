@@ -2,12 +2,6 @@ import DjlElse from './DjlElse.js' /* NOTE: We implicitly depend on this by
                                       referencing the DjlElse methods, even
                                       though we don't use the class directly. */
 
-/**
- * Conditional container
- * @attribute predicate - javascript expression
- * @attribute ifClass - class to be given to this element when the predicate is true
- * @attribute elseClass - class to be given to this element when the predicate is false (default: 'hidden')
- */
 export default class DjlIf extends HTMLElement {
   static define(tag = 'djl-if') {
     customElements.define(tag, this)

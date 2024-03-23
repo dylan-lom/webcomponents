@@ -1,10 +1,3 @@
-/**
- * Inline, editable code tag. 
- * Executed and rendered as <code> initially; on click displays an <input> of the
- * JavaScript. On submit re-executes and renders <code>.
- *
- * @attribute bool disabled -- viewing (and editing) script is disabled
- */
 export default class DjlScript extends HTMLElement {
   static define(tag = 'djl-script') {
     customElements.define(tag, this)
