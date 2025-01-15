@@ -1,3 +1,17 @@
+class Attribute extends String {
+    name
+    attributes
+
+    constructor(name, attributes = null) {
+        super(name)
+        this.name = name
+        this.attributes = attributes ?? {
+            get: function() { return this.getAttribute(name) },
+            set: function(value) { return this.setAttribute(name, value) }
+        }
+    }
+}
+
 export default class DjlSwitch extends HTMLElement {
     static #AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
 
@@ -6,16 +20,16 @@ export default class DjlSwitch extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return [ 'expression', 'default' ]
+        return [ new Attribute('expression'), new Attribute('default', {
+            get: function() { return this.getAttribute('default') ?? '_' },
+            set: function(value) { this.setAttribute('default', value) }
+        }) ]
     }
 
     static {
         // Declare getter/setter wrappers around observedAttributes (JS/DOM interface)
         this.observedAttributes.forEach(attribute => {
-            Object.defineProperty(this.prototype, attribute, {
-                get: function() { return this.getAttribute(attribute) },
-                set: function(value) { return this.setAttribute(attribute, value) },
-            })
+            Object.defineProperty(this.prototype, attribute.name, attribute.attributes)
         })
     }
 
@@ -53,6 +67,10 @@ export default class DjlSwitch extends HTMLElement {
     }
 
     attributeChangedCallback() {
+        this.#rerender()
+    }
+
+    reevaluate() {
         this.#rerender()
     }
 }

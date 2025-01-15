@@ -303,6 +303,32 @@
           <span slot="_"><strong>not</strong></span>
         </djl-switch> two-thousand-and-one
       </p>
+
+      <p>
+        The <code>reevaluate</code> method re-runs the expression & updates the
+        component state.
+      </p>
+
+      <p>
+        The current page hash points to <djl-switch id="locationswitch" expression="window.location.hash">
+          <span slot="#djl-lipsum">the lipsum example. Maybe take a look at <a href="#djl-switch">switch?</a></span>
+          <span slot="#djl-script">the script example. Maybe take a look at <a href="#djl-lipsum">lipsum?</a></span>
+          <span slot="#djl-spinner">the spinner example. Maybe take a look at <a href="#djl-script">script?</a></span>
+          <span slot="#djl-json">the json example. Maybe take a look at <a href="#djl-spinner">spinner?</a></span>
+          <span slot="#djl-codeblock">the codeblock example. Maybe take a look at <a href="#djl-json">json?</a></span>
+          <span slot="#djl-tex">the tex example. Maybe take a look at <a href="#djl-codeblock">codeblock?</a></span>
+          <span slot="#djl-youtube">the youtube example. Maybe take a look at <a href="#djl-tex">tex?</a></span>
+          <span slot="#djl-if">the if example. Maybe take a look at <a href="#djl-youtube">youtube?</a></span>
+          <span slot="#djl-switch">the switch example. Maybe take a look at <a href="#djl-if">if?</a></span>
+          <span slot="">the full document. Maybe take a look at <a href="#djl-switch">switch?</a></span>
+          <span slot="_">an unexpected location. Maybe take a look at <a href="#djl-switch">switch?</a></span>
+        </djl-switch>
+        (and then check back!)
+
+        <script>
+          window.addEventListener('hashchange', () => window.locationswitch.reevaluate())
+        </script>
+      </p>
     </article>
   </body>
 </html>
